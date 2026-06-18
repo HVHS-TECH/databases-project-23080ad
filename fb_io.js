@@ -80,3 +80,7 @@ function addUserToDatabase() {
     });
 
 }
+
+function Savescore(newScore) {
+    console.log(newScore)
+}
