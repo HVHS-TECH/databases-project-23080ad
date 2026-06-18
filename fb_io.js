@@ -80,10 +80,3 @@ function addUserToDatabase() {
     });
 
 }
-
-
-function notifyParent() {
-    window.parent.writeScoreToDB("Hello!");
-
-
-}
