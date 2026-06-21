@@ -18,7 +18,7 @@ function endGame(_player, _obstacle) {
     // Put your database writes here:
     console.log(score);
     
-    window.parent.Savescore(score);
+    window.parent.Savescore_game1(score);
 }
 
 

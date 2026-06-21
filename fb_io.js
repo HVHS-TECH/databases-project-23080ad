@@ -60,12 +60,19 @@ function fb_authenticate() {
                 var user = result.user;
             });
         }
-        //fill in the table with the users details
-        document.getElementById("userAge_id").innerHTML = userAge;
-        document.getElementById("userName_id").innerHTML = userName;
-        document.getElementById("userEmail_id").innerHTML = userEmail;
 
-        addUserToDatabase();
+        //check if the user is too young to play
+        if (userAge <= 18) {
+            console.log("You are too young!")
+        } else {
+
+            //fill in the table with the users details
+            document.getElementById("userAge_id").innerHTML = userAge;
+            document.getElementById("userName_id").innerHTML = userName;
+            document.getElementById("userEmail_id").innerHTML = userEmail;
+
+            addUserToDatabase();
+        }
     });
 }
 
@@ -75,12 +82,18 @@ function addUserToDatabase() {
         Username: userName,
         Age: userAge,
         Email: userEmail,
-        Score_game_1: userScore,
-        Score_game_2: userScore,
+        score_game_1: userScore,
+        score_game_2: userScore,
     });
-
 }
 
-function Savescore(newScore) {
-    console.log(newScore)
+//update users score for game 1
+function Savescore_game1(newScore) {
+    //save the score in the game1 branch (TEST)
+    firebase.database().ref('/game 1/user 1/').set(newScore);
+
+    //save the score in the userinfo branch
+    console.log("test is the score coming through " + newScore)
+    console.log(uid)
+    firebase.database().ref('/test_userInfo/players/' + uid + "/score_game_1/").set(newScore);
 }

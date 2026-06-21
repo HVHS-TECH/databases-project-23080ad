@@ -595,6 +595,10 @@ function roundOver() {
     }
     newRoundButton.show();
 
+    //added script for database project
+    console.log(finalScore);
+    
+    window.parent.Savescore_games(score);
 }
 
 

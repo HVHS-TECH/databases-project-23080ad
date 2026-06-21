@@ -7,6 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon">
 
+    <!-- firebase start ****************************************-->
+  <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+
   <!-- P5.js & P5.play ***************************************-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"
     integrity="sha512-bzpp8klYroR6PFgL3RJ+VkvY5hJna7Zd38OA56peUDHSNQpSiN9lDQVnMYtcw7hoAVhbR6mAOdH+ymzg1o+G0A=="
@@ -24,8 +32,9 @@
   <!--makes the screen width and height fit exactly the the screens width and height without overflow-->
 
 <body style="margin:0; padding:0; overflow:hidden;">
+  <script src="../fb_setup.js"></script>
   <script src="Geodash.js"></script>
-  <script src="fb_io.js"></script>
+  <script src="../fb_io.js"></script>
 </body>
 
 </html>
