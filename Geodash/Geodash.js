@@ -21,7 +21,48 @@ function endGame(_player, _obstacle) {
     window.parent.Savescore_game1(score);
 }
 
+// function fb_authenticate() {
+//     console.log("Logging in")
+//     firebase.auth().onAuthStateChanged((user) => {
+//         if (user) {
+//             console.log("Logged in")
+//             console.log(user)
+//             // User is signed in, see docs for a list of avaliable properties
+//             // https://firebase.google.com/docs/refrence/js/firebase.User
+//             uid = user.uid;
+//             userEmail = user.email;
+//             console.log(userEmail);
 
+//             // ...
+//         } else {
+//             console.log("Not logged in")
+//             // User is signed out
+//             // Using a popup.
+//             var provider = new firebase.auth.GoogleAuthProvider();
+//             firebase.auth().signInWithPopup(provider).then(function (result) {
+//                 // This gives you a Google Access Token.
+//                 var token = result.credential.accessToken;
+//                 // The signed in user info.
+//                 var user = result.user;
+//                 uid = user.uid;
+//                 userEmail = user.email;
+//             });
+//         }
+
+//         //check if the user is too young to play
+//         if (userAge <= 18) {
+//             console.log("You are too young!")
+//         } else {
+
+//             //fill in the table with the users details
+//             document.getElementById("userAge_id").innerHTML = userAge;
+//             document.getElementById("userName_id").innerHTML = userName;
+//             document.getElementById("userEmail_id").innerHTML = userEmail;
+
+//             addUserToDatabase();
+//         }
+//     });
+// }
 
 
 
