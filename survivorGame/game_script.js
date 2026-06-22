@@ -598,7 +598,7 @@ function roundOver() {
     //added script for database project
     console.log(finalScore);
     
-    window.parent.Savescore_games(score);
+    window.parent.Savescore_game2(score);
 }
 
 

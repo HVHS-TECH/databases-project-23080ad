@@ -7,7 +7,7 @@ var userEmail;
 var authenticationListener;
 
 //score managing variables
-var userScore = 5; //this is a test value for now
+var userScore = 0; //this is the users base scoire in each game
 /***************************************************************/
 
 //checks that all user data has been filled out before allowing login
@@ -92,7 +92,7 @@ function addUserToDatabase() {
 //update users score for game 1
 function Savescore_game1(newScore) {
     //save the score in the game1 branch (TEST)
-    firebase.database().ref('/game 1/user 1/').set(newScore);
+    firebase.database().ref('/game 1/' + uid + '/score/').set(newScore);
 
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)

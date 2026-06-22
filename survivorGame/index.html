@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-    <title>GamePlay</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon">
+  <title>GamePlay</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon">
 
-      <!-- firebase start ****************************************-->
+  <!-- firebase start ****************************************-->
   <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
   <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
   <!-- Add Firebase products that you want to use -->
@@ -15,28 +15,59 @@
   <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
 
-    <!-- P5.js & P5.play ***************************************-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"
-        integrity="sha512-bzpp8klYroR6PFgL3RJ+VkvY5hJna7Zd38OA56peUDHSNQpSiN9lDQVnMYtcw7hoAVhbR6mAOdH+ymzg1o+G0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.js"
-        integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://p5play.org/v3/planck.min.js"></script>
-    <script src="https://p5play.org/v3/p5play.js"></script>
+  <!-- P5.js & P5.play ***************************************-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"
+    integrity="sha512-bzpp8klYroR6PFgL3RJ+VkvY5hJna7Zd38OA56peUDHSNQpSiN9lDQVnMYtcw7hoAVhbR6mAOdH+ymzg1o+G0A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.js"
+    integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://p5play.org/v3/planck.min.js"></script>
+  <script src="https://p5play.org/v3/p5play.js"></script>
 
-<!--*************************************************************
+  <!--*************************************************************
   BODY
 **************************************************************-->
 
-<!--makes the screen width and height fit exactly the the screens width and height without overflow-->
-<body style= "margin:0; padding:0; overflow:hidden;">
-    <script src="game_script.js"></script>
-    <script src="../fb_io.js"></script>
+  <!--makes the screen width and height fit exactly the the screens width and height without overflow-->
+
+<body style="margin:0; padding:0; overflow:hidden;">
+  <script src="game_script.js"></script>
+  <script src="../fb_io.js"></script>
+
+  <form>
+    <label for="userName">UserName:</label>
+    <input type="text" id="userName" name="Username" />
+
+    <label for="userAge">Age:</label>
+    <input type="number" id="userAge" name="userAge" maxlength="3" />
+  </form>
+
+  <button onclick="checkLoginData()">Login/signup</button>
+  <button onclick="fb_logOut()">LogOut</button>
+
+  <table>
+    <tr>
+      <ti><b>USER DETAILS</b></ti>
+    </tr>
+    </tr>
+    <td>User name: </td>
+    <td id="userName_id"></td>
+    <tr>
+
+    <tr>
+      <td>Age: </td>
+      <td id="userAge_id"></td>
+    </tr>
+
+    <tr>
+      <td>Email: </td>
+      <td id="userEmail_id"></td>
+    </tr>
+  </table>
 </body>
 
 </html>
 <!--*************************************************************
   END OF DOC
 **************************************************************-->
-
