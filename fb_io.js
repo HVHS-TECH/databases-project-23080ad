@@ -80,7 +80,7 @@ function fb_authenticate() {
 
 //add user to the main databse when they login for the first time
 function addUserToDatabase() {
-    firebase.database().ref('/test_userInfo/players/' + uid + "/").set({
+    firebase.database().ref('/userInfo/players/' + uid + "/").set({
         Username: userName,
         Age: userAge,
         Email: userEmail,
@@ -97,5 +97,16 @@ function Savescore_game1(newScore) {
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)
     console.log(uid)
-    firebase.database().ref('/test_userInfo/players/' + uid + "/score_game_1/").set(newScore);
+    firebase.database().ref('/userInfo/players/' + uid + "/score_game_1/").set(newScore);
+}
+
+//update users score for game 2
+function Savescore_game2(newScore) {
+    //save the score in the game1 branch (TEST)
+    firebase.database().ref('/game 2/' + uid + '/score/').set(newScore);
+
+    //save the score in the userinfo branch
+    console.log("test is the score coming through " + newScore)
+    console.log(uid)
+    firebase.database().ref('/userInfo/players/' + uid + "/score_game_2/").set(newScore);
 }

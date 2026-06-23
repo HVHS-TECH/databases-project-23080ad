@@ -15,12 +15,20 @@ function endGame(_player, _obstacle) {
     screenSelector = "end";
     player.remove();
     obstacles.removeAll();
-    // Put your database writes here:
-    console.log(score);
     
-    window.parent.Savescore_game1(score);
+    // Put your database writes here:
+    
+    var uid;
+
+    if (!uid || uid.uid) {
+        console.log("you must log in to save scores")
+    } else {
+        console.log("final score game 1: " + score);
+        window.parent.Savescore_game1(score);
+    }
 }
-//added for login sync on all pages
+
+//added for login on all pages
 function fb_authenticate() {
     console.log("Logging in")
     firebase.auth().onAuthStateChanged((user) => {
