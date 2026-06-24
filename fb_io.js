@@ -22,6 +22,13 @@ function checkLoginData() {
         fb_authenticate();
     }
 
+
+
+}
+
+function readListenerTest() {
+    console.log("read listener running")
+    firebase.database().ref("/userInfo/players/" + uid + "/").on('value', readoutput);
 }
 
 //doesnt work as it says
@@ -63,21 +70,26 @@ function fb_authenticate() {
             });
         }
 
-        //check if the user is too young to play
-        if (userAge <= 18) {
-            console.log("You are too young!")
-        } else {
-
-            //fill in the table with the users details
-            document.getElementById("userAge_id").innerHTML = userAge;
-            document.getElementById("userName_id").innerHTML = userName;
-            document.getElementById("userEmail_id").innerHTML = userEmail;
-
-            addUserToDatabase();
-        }
+        readListenerTest();
     });
 }
 
+//when the user presses mlogin if they dont have an account their datais saved, fix this
+function readoutput() {
+    //check if the user is too young to play
+    if (userAge <= 18) {
+        console.log("You are too young!")
+    } else {
+
+        //fill in the table with the users details
+        document.getElementById("userAge_id").innerHTML = userAge;
+        document.getElementById("userName_id").innerHTML = userName;
+        document.getElementById("userEmail_id").innerHTML = userEmail;
+
+        addUserToDatabase();
+    }
+
+}
 //add user to the main databse when they login for the first time
 function addUserToDatabase() {
     firebase.database().ref('/userInfo/players/' + uid + "/").set({
