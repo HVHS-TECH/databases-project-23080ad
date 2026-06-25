@@ -8,6 +8,9 @@
 /*******************************************************/
 console.log("Running the game");
 
+//keep this outside of all functions! it needs to be global -- added in firebase project
+var uid;
+
 
 // End game code
 function endGame(_player, _obstacle) {
@@ -18,7 +21,6 @@ function endGame(_player, _obstacle) {
     
     // Put your database writes here:
     
-    var uid;
 
     if (!uid || uid.uid) {
         console.log("you must log in to save scores")

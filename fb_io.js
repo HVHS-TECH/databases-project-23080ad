@@ -7,7 +7,7 @@ var userEmail;
 var authenticationListener;
 
 //score managing variables
-var userScore = 0; //this is the users base scoire in each game
+var userScore = 0; //this is the users base score in each game
 /***************************************************************/
 
 //checks that all user data has been filled out before allowing login
@@ -22,25 +22,7 @@ function checkLoginData() {
         fb_authenticate();
     }
 
-
-
 }
-
-function readListenerTest() {
-    console.log("read listener running")
-    firebase.database().ref("/userInfo/players/" + uid + "/").on('value', readoutput);
-}
-
-//doesnt work as it says
-// function fb_login() {
-//     authenticationListener = firebase.auth().onAuthStateChanged(handleLogin);
-// }
-
-// function fb_logOut() {
-//     authenticationListener();
-//     firebase.auth.signOut();
-//     console.log("logged out");
-// }
 
 function fb_authenticate() {
     console.log("Logging in")
@@ -70,12 +52,18 @@ function fb_authenticate() {
             });
         }
 
-        readListenerTest();
+        readOutput();
     });
 }
 
-//when the user presses mlogin if they dont have an account their datais saved, fix this
-function readoutput() {
+//build update if you have time
+function readListenerTest() {
+    console.log("read listener running")
+    firebase.database().ref("/userInfo/players/" + uid + "/").on('value', readOutput);
+}
+
+//when the user presses login if they dont have an account their datais saved, fix this
+function readOutput() {
     //check if the user is too young to play
     if (userAge <= 18) {
         console.log("You are too young!")
@@ -86,9 +74,12 @@ function readoutput() {
         document.getElementById("userName_id").innerHTML = userName;
         document.getElementById("userEmail_id").innerHTML = userEmail;
 
+        //add the user top the database
         addUserToDatabase();
     }
 
+    //ALL_SCORES.innerHTML = snapshot.val();
+    //document.getElementById(scores_survivorGame).innerHTML = snapshot.val();
 }
 //add user to the main databse when they login for the first time
 function addUserToDatabase() {
@@ -109,6 +100,12 @@ function Savescore_game1(newScore) {
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)
     console.log(uid)
+    //add new score to the Game specific branch
+    firebase.database().ref('/game 1/' + uid + "/").set({
+        Score: newScore,
+        Username: userName,
+    });
+    //add new score to the userInfo
     firebase.database().ref('/userInfo/players/' + uid + "/score_game_1/").set(newScore);
 }
 
@@ -120,5 +117,11 @@ function Savescore_game2(newScore) {
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)
     console.log(uid)
+    //add new score to the Game specific branch
+    firebase.database().ref('/game 2/' + uid + "/").set({
+        Score: newScore,
+        Username: userName,
+    });
+    //add new score to the userInfo
     firebase.database().ref('/userInfo/players/' + uid + "/score_game_2/").set(newScore);
 }
