@@ -2,7 +2,7 @@
 //VARIABLES
 /***************************************************************/
 //Users account variables
-var uid;
+var uid = "404fail";
 var userEmail;
 var authenticationListener;
 
@@ -14,8 +14,8 @@ var userScore = 0; //this is the users base score in each game
 function checkLoginData() {
     userAge = document.getElementById("userAge").value;
     userName = document.getElementById("userName").value;
-    if (userName == null || userAge == null) {
-        console.log("you must fillout all fields");
+    if (userName == "" || userAge == "") {
+        returningUser();
     } else {
         console.log(userAge);
         console.log(userName);
@@ -56,15 +56,24 @@ function fb_authenticate() {
     });
 }
 
-//build update if you have time
-function readListenerTest() {
+//checks if the user has logged in before or is simply trying to enter a null account
+function returningUser() {
     console.log("read listener running")
-    firebase.database().ref("/userInfo/players/" + uid + "/").on('value', readOutput);
+    
+
+    if (uid == "404fail") {
+        console.log("you must fillout all fields");
+    } else {
+        console.log("returning user detected!");
+        firebase.database().ref('/userInfo/players/' + uid + '/').once('value', updateReturningStats);
+        readOutput();
+    }
 }
 
 //when the user presses login if they dont have an account their datais saved, fix this
-function readOutput() {
+function readOutput(snapshot) {
     //check if the user is too young to play
+
     if (userAge <= 18) {
         console.log("You are too young!")
     } else {
@@ -78,7 +87,8 @@ function readOutput() {
         addUserToDatabase();
     }
 
-    //ALL_SCORES.innerHTML = snapshot.val();
+
+    //scores_survivorGame.innerHTML = snapshot.val();
     //document.getElementById(scores_survivorGame).innerHTML = snapshot.val();
 }
 //add user to the main databse when they login for the first time
