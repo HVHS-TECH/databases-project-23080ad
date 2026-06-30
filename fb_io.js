@@ -2,13 +2,12 @@
 //VARIABLES
 /***************************************************************/
 //Users account variables
-var uid = "place_holder";
+var uid = "404fail";
 var userEmail;
 var authenticationListener;
 
 //score managing variables
 var userScore = 0; //this is the users base score in each game
-const HTML_OUTPUT = document.getElementById("scores_survivorGame");
 /***************************************************************/
 
 //checks that all user data has been filled out before allowing login
@@ -16,9 +15,10 @@ function checkLoginData() {
     userAge = document.getElementById("userAge").value;
     userName = document.getElementById("userName").value;
     if (userName == "" || userAge == "") {
-        //checks if they are a returning user or simply failed to fillout all fields
         returningUser();
     } else {
+        console.log(userAge);
+        console.log(userName);
         fb_authenticate();
     }
 
@@ -36,8 +36,7 @@ function fb_authenticate() {
             userEmail = user.email;
             console.log(userEmail);
 
-            //propmpts the datadbase to read other users highscores
-            firebase.database().ref('/userInfo/players/' + uid + '/').once('value', updateUserStats);
+            // ...
         } else {
             console.log("Not logged in")
             // User is signed out
@@ -53,29 +52,32 @@ function fb_authenticate() {
             });
         }
 
+        readOutput();
     });
 }
 
 //checks if the user has logged in before or is simply trying to enter a null account
 function returningUser() {
-    console.log("returning user detected")
+    console.log("read listener running")
+    
 
-    //if the user isnt logged in and they arent registered prompt them to sign up
-    if (uid == "place_holder") {
-        alert("please fill out all fields before registering or signing up!");
+    if (uid == "404fail") {
+        console.log("you must fillout all fields");
     } else {
         console.log("returning user detected!");
-        firebase.database().ref('/userInfo/players/' + uid + '/Score/').once('value', updateUserStats);
+        firebase.database().ref('/userInfo/players/' + uid + '/').once('value', updateReturningStats);
+        readOutput();
     }
 }
 
-//fills out the users details and displays them
-function updateUserStats(snapshot) {
+//when the user presses login if they dont have an account their datais saved, fix this
+function readOutput(snapshot) {
+    //check if the user is too young to play
 
-    //check if the user is too young to play and logs them in otherwise
-    if (userAge <= 15) {
-        alert("You are too young to be here! \n You must be at least 16 to use this site")
+    if (userAge <= 18) {
+        console.log("You are too young!")
     } else {
+
         //fill in the table with the users details
         document.getElementById("userAge_id").innerHTML = userAge;
         document.getElementById("userName_id").innerHTML = userName;
@@ -84,15 +86,10 @@ function updateUserStats(snapshot) {
         //add the user top the database
         addUserToDatabase();
     }
-    var dbData = snapshot.val();
-    if (dbData == null) {
-        console.log("There was no record when trying to read the message");
-    } else {
-        console.log("The full message is: " + dbData);
-        HTML_OUTPUT.innerHTML = snapshot.val();
-    }
-}
 
+    //scores_survivorGame.innerHTML = snapshot.val();
+    //document.getElementById(scores_survivorGame).innerHTML = snapshot.val();
+}
 //add user to the main databse when they login for the first time
 function addUserToDatabase() {
     firebase.database().ref('/userInfo/players/' + uid + "/").set({
