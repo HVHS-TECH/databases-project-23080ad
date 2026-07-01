@@ -20,12 +20,6 @@ function endGame(_player, _obstacle) {
     obstacles.removeAll();
     
     // Put your database writes here:
-<<<<<<< HEAD
-  
-    function writeScoreToDB(score) {
-    console.log("test score: " + score)
-    notifyParent();
-=======
     
 
     if (!uid || uid.uid) {
@@ -34,7 +28,6 @@ function endGame(_player, _obstacle) {
         console.log("final score game 1: " + score);
         window.parent.Savescore_game1(score);
     }
->>>>>>> 727026fa8c8d64cb713f0330197ff909ca39aa30
 }
 
 //added for login on all pages

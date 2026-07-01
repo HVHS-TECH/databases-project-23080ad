@@ -2,7 +2,7 @@
 //VARIABLES
 /***************************************************************/
 //Users account variables
-var uid = "404fail";
+var uid = "place_holder";
 var userEmail;
 var authenticationListener;
 
@@ -15,10 +15,9 @@ function checkLoginData() {
     userAge = document.getElementById("userAge").value;
     userName = document.getElementById("userName").value;
     if (userName == "" || userAge == "") {
+        //checks if they are a returning user or simply failed to fillout all fields
         returningUser();
     } else {
-        console.log(userAge);
-        console.log(userName);
         fb_authenticate();
     }
 
@@ -36,7 +35,6 @@ function fb_authenticate() {
             userEmail = user.email;
             console.log(userEmail);
 
-            // ...
         } else {
             console.log("Not logged in")
             // User is signed out
@@ -52,32 +50,43 @@ function fb_authenticate() {
             });
         }
 
-        readOutput();
+        //propmpts the datadbase to read other users highscores
+        readDataBaseScoresGame_1();
     });
 }
 
 //checks if the user has logged in before or is simply trying to enter a null account
 function returningUser() {
-    console.log("read listener running")
-    
+    console.log("returning user detected")
 
-    if (uid == "404fail") {
-        console.log("you must fillout all fields");
+    //if the user isnt logged in and they arent registered prompt them to sign up
+    if (uid == "place_holder") {
+        alert("please fill out all fields before registering or signing up!");
     } else {
         console.log("returning user detected!");
-        firebase.database().ref('/userInfo/players/' + uid + '/').once('value', updateReturningStats);
-        readOutput();
+        //read the scores for game 1
+        readDataBaseScoresGame_1();
     }
 }
 
-//when the user presses login if they dont have an account their datais saved, fix this
-function readOutput(snapshot) {
-    //check if the user is too young to play
+//read the scores from the database for each player in game 1
+function readDataBaseScoresGame_1() {
+    firebase.database().ref('/game 1/').orderByChild('score').once('value', updateUserStats, fb_displayAllHighScores);
+}
 
-    if (userAge <= 18) {
-        console.log("You are too young!")
+//fills out the users details and displays them
+function updateUserStats(snapshot) {
+    const htmlOutput = document.getElementById("scores_survivorGame");
+
+    if (!htmlOutput) {
+        console.error("Html_output is blank");
+        return;
+    }
+
+    //check if the user is too young to play and logs them in otherwise
+    if (userAge <= 15) {
+        alert("You are too young to be here! \n You must be at least 16 to use this site")
     } else {
-
         //fill in the table with the users details
         document.getElementById("userAge_id").innerHTML = userAge;
         document.getElementById("userName_id").innerHTML = userName;
@@ -86,13 +95,30 @@ function readOutput(snapshot) {
         //add the user top the database
         addUserToDatabase();
     }
-
-    //scores_survivorGame.innerHTML = snapshot.val();
-    //document.getElementById(scores_survivorGame).innerHTML = snapshot.val();
+    const dbData = snapshot.val();
+    if (dbData == null) {
+        console.log("No record found");
+    } else {
+        //convert the db output into a string. Null keeps all values the same.
+        // 2 creates indentation for easy reading.
+        htmlOutput.textContent = JSON.stringify(dbData, null, 2);
+    }
 }
+
+
 //add user to the main databse when they login for the first time
 function addUserToDatabase() {
-    firebase.database().ref('/userInfo/players/' + uid + "/").set({
+    if (!uid || uid === "place_holder") {
+        console.error("UID is not ready");
+        return;
+    }
+
+    if (!userEmail) {
+        console.error("Email is not ready");
+        return;
+    }
+
+    firebase.database().ref('/userInfo/players/' + uid + "/").update({
         Username: userName,
         Age: userAge,
         Email: userEmail,
@@ -103,34 +129,44 @@ function addUserToDatabase() {
 
 //update users score for game 1
 function Savescore_game1(newScore) {
-    //save the score in the game1 branch (TEST)
-    firebase.database().ref('/game 1/' + uid + '/score/').set(newScore);
+    //save the score in the game 1 branch
+    firebase.database().ref('/game 1/' + uid + '/').update({
+        score: newScore,
+        Username: userName,
+    });;
 
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)
     console.log(uid)
-    //add new score to the Game specific branch
-    firebase.database().ref('/game 1/' + uid + "/").set({
-        Score: newScore,
-        Username: userName,
-    });
+    
     //add new score to the userInfo
     firebase.database().ref('/userInfo/players/' + uid + "/score_game_1/").set(newScore);
 }
 
 //update users score for game 2
 function Savescore_game2(newScore) {
-    //save the score in the game1 branch (TEST)
-    firebase.database().ref('/game 2/' + uid + '/score/').set(newScore);
+    //save the score in the game 2 branch
+    firebase.database().ref('/game 2/' + uid + '/').update({
+        score: newScore,
+        Username: userName,
+    });;
 
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)
     console.log(uid)
-    //add new score to the Game specific branch
-    firebase.database().ref('/game 2/' + uid + "/").set({
-        Score: newScore,
-        Username: userName,
-    });
+
     //add new score to the userInfo
-    firebase.database().ref('/userInfo/players/' + uid + "/score_game_2/").set(newScore);
+    firebase.database().ref('/userInfo/players/' + uid + "/score_game_2/").update(newScore);
 }
+
+//display the current highscore
+function fb_displayAllHighScores(snapshot) {
+    let highScores = snapshot.forEach(fb_showOneScore);
+}
+
+//iterate through every score
+function fb_showOneScore(child) {
+    console.log(child.key + " got " + child.val() + " points");
+}
+
+readDataBaseScoresGame_1();

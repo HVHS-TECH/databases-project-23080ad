@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon">
 
-    <!-- firebase start ****************************************-->
+  <!-- firebase start ****************************************-->
   <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
   <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
   <!-- Add Firebase products that you want to use -->
@@ -37,34 +37,35 @@
   <script src="../fb_io.js"></script>
 
   <form>
-        <label for="userName">UserName:</label>
-        <input type="text" id="userName" name="Username" />
+    <label for="userName">UserName:</label>
+    <input type="text" id="userName" name="Username" />
 
-        <label for="userAge">Age:</label>
-        <input type="number" id="userAge" name="userAge" maxlength="3" />
-    </form>
+    <label for="userAge">Age:</label>
+    <input type="number" id="userAge" name="userAge" maxlength="3" />
+  </form>
 
-    <button onclick="checkLoginData()">Login/signup</button>
+  <button onclick="checkLoginData()">Login/signup</button>
 
-    <table>
-        <tr>
-            <ti><b>USER DETAILS</b></ti>
-        </tr>
-        </tr>
-        <td>User name: </td>
-        <td id="userName_id"></td>
-        <tr>
+  <table>
+    <tr>
+      <ti><b>USER DETAILS</b></ti>
+    </tr>
+    </tr>
+    <td>User name: </td>
+    <td id="userName_id"></td>
+    <tr>
 
-        <tr>
-            <td>Age: </td>
-            <td id="userAge_id"></td>
-        </tr>
+    <tr>
+      <td>Age: </td>
+      <td id="userAge_id"></td>
+    </tr>
 
-        <tr>
-            <td>Email: </td>
-            <td id="userEmail_id"></td>
-        </tr>
-    </table>
+    <tr>
+      <td>Email: </td>
+      <td id="userEmail_id"></td>
+    </tr>
+  </table>
+  <div id="scores_survivorGame"></div>
 </body>
 
 </html>
