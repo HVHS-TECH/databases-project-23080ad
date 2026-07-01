@@ -1,0 +1,21 @@
+ .scores_Geodash {
+     width: 200px;
+     height: 100px;
+     background-color: rgb(156, 153, 153);
+     display: block;
+     overflow: auto;
+ }
+
+ .scores_survivorGame {
+     width: 200px;
+     height: 100px;
+     background-color: rgb(156, 153, 153);
+     display: block;
+     overflow: auto;
+ }
+
+ .header {
+     display: block;
+     background-color: rgb(229, 241, 61);
+     text-align: center;
+ }

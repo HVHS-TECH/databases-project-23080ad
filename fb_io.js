@@ -76,12 +76,6 @@ function readDataBaseScoresGame_1() {
 
 //fills out the users details and displays them
 function updateUserStats(snapshot) {
-    const htmlOutput = document.getElementById("scores_survivorGame");
-
-    if (!htmlOutput) {
-        console.error("Html_output is blank");
-        return;
-    }
 
     //check if the user is too young to play and logs them in otherwise
     if (userAge <= 15) {
@@ -95,13 +89,38 @@ function updateUserStats(snapshot) {
         //add the user top the database
         addUserToDatabase();
     }
-    const dbData = snapshot.val();
-    if (dbData == null) {
-        console.log("No record found");
-    } else {
-        //convert the db output into a string. Null keeps all values the same.
-        // 2 creates indentation for easy reading.
-        htmlOutput.textContent = JSON.stringify(dbData, null, 2);
+
+    let users = snapshot.val();
+
+    if (!users) {
+        console.error("Html_output is blank");
+        return;
+    }
+
+    let Leaderboard = Object.values(users);
+
+    //sort from highest to lowest
+    Leaderboard.sort((a, b) => b.score - a.score);
+
+    let LeaderboardHTML = "<h2>Geodash leader board</h2>";
+
+    for (let i = 0; i < Leaderboard.length; i++) {
+        let user = Leaderboard[i];
+
+        LeaderboardHTML +=
+            "<p>" +
+            (i + 1) +
+            ". " +
+            user.username +
+            ": " +
+            user.userscore +
+            "</p>"
+    }
+
+    let LeaderboardDiv = document.getElementById("scores_Geodash");
+
+    if (LeaderboardDiv) {
+        LeaderboardDiv.innerHTML = LeaderboardHTML;
     }
 }
 
@@ -138,7 +157,7 @@ function Savescore_game1(newScore) {
     //save the score in the userinfo branch
     console.log("test is the score coming through " + newScore)
     console.log(uid)
-    
+
     //add new score to the userInfo
     firebase.database().ref('/userInfo/players/' + uid + "/score_game_1/").set(newScore);
 }

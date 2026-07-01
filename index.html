@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Angus's game Site</title>
+    <link rel="stylesheet" href="style.css" />
 
     <!-- firebase start ****************************************-->
     <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
@@ -18,32 +19,16 @@
     <!-- firebase end ******************************************-->
     <script src="fb_setup.js"></script>
     <script src="fb_io.js"></script>
+    
 
-    <style>
-        .scores_Geodash {
-            width: 200px;
-            height: 100px;
-            background-color: rgb(156, 153, 153);
-            display: block;
-            overflow: auto;
-        }
-
-        .scores_survivorGame {
-            width: 200px;
-            height: 100px;
-            background-color: rgb(156, 153, 153);
-            display: block;
-            overflow: auto;
-        }
-    </style>
 </head>
 
 <body>
-    <h1>Angus's game Site</h1>
+    <h1 class="header">Angus's game Site</h1>
 
     <p>Geodash</p>
     <a href="Geodash/index.html">GeoDash</a>
-    <div class="scores_Geodash">
+    <div class="scores_Geodash" id="scores_Geodash">
         <ul>
             <li>score 1</li>
             <li>score 2</li>
@@ -66,7 +51,7 @@
             <li>score 6</li>
         </ul>
     </div>
-
+ id
     <form>
         <label for="userName">UserName:</label>
         <input type="text" id="userName" name="Username" />

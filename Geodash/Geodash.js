@@ -31,6 +31,18 @@ function endGame(_player, _obstacle) {
 }
 
 //added for login on all pages
+function checkLoginData() {
+    userAge = document.getElementById("userAge").value;
+    userName = document.getElementById("userName").value;
+    if (userName == "" || userAge == "") {
+        //checks if they are a returning user or simply failed to fillout all fields
+        returningUser();
+    } else {
+        fb_authenticate();
+    }
+
+}
+
 function fb_authenticate() {
     console.log("Logging in")
     firebase.auth().onAuthStateChanged((user) => {
@@ -43,7 +55,6 @@ function fb_authenticate() {
             userEmail = user.email;
             console.log(userEmail);
 
-            // ...
         } else {
             console.log("Not logged in")
             // User is signed out
@@ -59,21 +70,101 @@ function fb_authenticate() {
             });
         }
 
-        //check if the user is too young to play
-        if (userAge <= 18) {
-            console.log("You are too young!")
-        } else {
-
-            //fill in the table with the users details
-            document.getElementById("userAge_id").innerHTML = userAge;
-            document.getElementById("userName_id").innerHTML = userName;
-            document.getElementById("userEmail_id").innerHTML = userEmail;
-
-            addUserToDatabase();
-        }
+        //propmpts the datadbase to read other users highscores
+        readDataBaseScoresGame_1();
     });
 }
 
+//checks if the user has logged in before or is simply trying to enter a null account
+function returningUser() {
+    console.log("returning user detected")
+
+    //if the user isnt logged in and they arent registered prompt them to sign up
+    if (uid == "place_holder") {
+        alert("please fill out all fields before registering or signing up!");
+    } else {
+        console.log("returning user detected!");
+        //read the scores for game 1
+        readDataBaseScoresGame_1();
+    }
+}
+
+//read the scores from the database for each player in game 1
+function readDataBaseScoresGame_1() {
+    firebase.database().ref('/game 1/').orderByChild('score').once('value', updateUserStats, fb_displayAllHighScores);
+}
+
+//fills out the users details and displays them
+function updateUserStats(snapshot) {
+
+    //check if the user is too young to play and logs them in otherwise
+    if (userAge <= 15) {
+        alert("You are too young to be here! \n You must be at least 16 to use this site")
+    } else {
+        //fill in the table with the users details
+        document.getElementById("userAge_id").innerHTML = userAge;
+        document.getElementById("userName_id").innerHTML = userName;
+        document.getElementById("userEmail_id").innerHTML = userEmail;
+
+        //add the user top the database
+        addUserToDatabase();
+    }
+
+    let users = snapshot.val();
+
+    if (!users) {
+        console.error("Html_output is blank");
+        return;
+    }
+
+    let Leaderboard = Object.values(users);
+
+    //sort from highest to lowest
+    Leaderboard.sort((a, b) => b.score - a.score);
+
+    let LeaderboardHTML = "<h2>Geodash leader board</h2>";
+
+    for (let i = 0; i < Leaderboard.length; i++) {
+        let user = Leaderboard[i];
+
+        LeaderboardHTML +=
+            "<p>" +
+            (i + 1) +
+            ". " +
+            user.username +
+            ": " +
+            user.userscore +
+            "</p>"
+    }
+
+    let LeaderboardDiv = document.getElementById("scores_Geodash");
+
+    if (LeaderboardDiv) {
+        LeaderboardDiv.innerHTML = LeaderboardHTML;
+    }
+}
+
+
+//add user to the main databse when they login for the first time
+function addUserToDatabase() {
+    if (!uid || uid === "place_holder") {
+        console.error("UID is not ready");
+        return;
+    }
+
+    if (!userEmail) {
+        console.error("Email is not ready");
+        return;
+    }
+
+    firebase.database().ref('/userInfo/players/' + uid + "/").update({
+        Username: userName,
+        Age: userAge,
+        Email: userEmail,
+        score_game_1: userScore,
+        score_game_2: userScore,
+    });
+}
 
 
 
